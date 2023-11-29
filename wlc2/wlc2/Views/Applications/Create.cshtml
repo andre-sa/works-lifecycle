@@ -1,0 +1,255 @@
+﻿@model wlc2.Models.Application
+
+@{
+    ViewData["Title"] = "Candidatar-me";
+}
+
+<div class="card shadow-sm mt-3 pb-3">
+    <div class="card-body">
+        <h3><strong>Candidatura a Projetos</strong></h3>
+    </div>
+</div>
+    
+<br />
+
+<form asp-action="Create" id="applicationForm">
+    
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    @* Application Students *@
+    @* <div class="card shadow-sm mt-3 pb-3">
+        <div class="card-body">
+
+            <h5>Selecione o seu curso:</h5>
+
+            <select id="courseId" class="form-control shadow">
+                <option value="0" data-degree="0">----- Por favor, escolha um curso que esteja associado a sí -----</option>
+                @foreach (var courseItem in ViewData["CourseFK"] as SelectList)
+                {
+                    var courseId = courseItem.Value.ToString();
+                    var courseText = courseItem.Text.ToString();
+                    var degree = (Degree)ViewBag.CourseDegrees[int.Parse(courseId)];
+                    var prefix = "";
+
+                    switch (degree)
+                    {
+                        case Degree.bachelor:
+                            prefix = "Licenciatura em";
+                            break;
+                        case Degree.master:
+                            prefix = "Mestrado em";
+                            break;
+                        case Degree.doctorate:
+                            prefix = "Doutoramento em";
+                            break;
+                        default:
+                            break;
+                    }
+
+                    <option value="@courseId" data-degree="@degree">@prefix @courseText</option>
+                }
+            </select>
+
+            
+        </div>
+    </div> *@
+
+    @* Application Course *@
+    <div class="card shadow-sm mt-3 pb-3">
+        <div class="card-body">
+
+            <h5>Selecionar o Curso</h5>
+            <div class="shadow bg-light mx-auto rounded-3" style="max-height: 400px; margin-left: auto; margin-right: auto; overflow-y: auto;">
+                
+                <div class="form-group">
+                    <label class="control-label">Curso a que pertence o projeto:</label>
+                    <select id="courseId" asp-for="CourseFK" class="form-control shadow">
+                        <option value="0" data-degree="0">----- Por favor, escolha um curso que esteja associado a sí -----</option>
+                        @foreach (var courseItem in ViewBag.CourseFK)
+                        {
+                            var courseId = courseItem.Value.ToString();
+                            var courseText = courseItem.Text.ToString();
+                            var degree = (Degree)ViewBag.CourseDegrees[int.Parse(courseId)];
+                            var prefix = "";
+
+                            switch (degree)
+                            {
+                                case Degree.bachelor:
+                                    prefix = "Licenciatura em";
+                                    break;
+                                case Degree.master:
+                                    prefix = "Mestrado em";
+                                    break;
+                                case Degree.doctorate:
+                                    prefix = "Doutoramento em";
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            <option value="@courseId" data-degree="@degree">@prefix @courseText</option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    @* Application Students *@
+    <div class="card shadow-sm mt-3 pb-3">
+        <div class="card-body">
+
+            <h5>Constituição do Grupo</h5>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text shadow" id="basic-addon1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </span>
+                <input type="text" id="searchInputStudents" class="form-control shadow" placeholder="Procurar estudante...">
+            </div>
+            <div class="shadow bg-light mx-auto rounded-3" style="max-height: 400px; margin-left: auto; margin-right: auto; overflow-y: auto;">
+                <table class="table" id="studentsTable">
+                    <thead>
+                        <tr>
+                            <th>Associar</th>
+                            <th>Processo</th>
+                            <th>Nome do Aluno</th>
+                            <th style="display:none;">Id do Aluno</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    
+    
+    <!-- -------------------------------------------------------------------- -->
+    <br />
+    <!-- -------------------------------------------------------------------- -->
+
+    @* Application Projects *@
+    <div class="card shadow-sm mt-3 pb-3">
+        <div class="card-body">
+
+            <h5>Selecione os projetos por ordem de preferência. Escolha, pelo menos, um projeto.</h5>
+
+            <div class="form-group">
+                <label class="control-label">1a preferência:</label>
+                <select class="form-control shadow" name="preference1" asp-items="ViewBag.ApprovedProposalsFK">
+                    <option value="0">----- Escolher um projeto -----</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">2a preferência:</label>
+                <select class="form-control shadow" name="preference2" asp-items="ViewBag.ApprovedProposalsFK">
+                    <option value="0">----- Escolher um projeto -----</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">3a preferência:</label>
+                <select class="form-control shadow" name="preference3" asp-items="ViewBag.ApprovedProposalsFK">
+                    <option value="0">----- Escolher um projeto -----</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">4a preferência:</label>
+                <select class="form-control shadow" name="preference4" asp-items="ViewBag.ApprovedProposalsFK">
+                    <option value="0">----- Escolher um projeto -----</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">5a preferência:</label>
+                <select class="form-control shadow" name="preference5" asp-items="ViewBag.ApprovedProposalsFK">
+                    <option value="0">----- Escolher um projeto -----</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">6a preferência:</label>
+                <select class="form-control shadow" name="preference6" asp-items="ViewBag.ApprovedProposalsFK">
+                    <option value="0">----- Escolher um projeto -----</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+    
+    <br />
+
+    <div class="form-group d-flex justify-content-end">
+        <input type="submit" id="btnEfetuarCandidatura" value="Efetuar Candidatura" class="btn btn-primary shadow" />
+    </div>
+
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $.ajax({
+                url: '/Applications/GetStudentsList',
+                type: 'GET',
+                dataType: 'json',
+                success: function (students) {
+                    var table = $('#studentsTable tbody');
+                    table.empty();
+
+                    students.forEach(function (student) {
+                        table.append('<tr><td><input type="checkbox" id="checkbox" name="checkbox">' + '</td><td>' + student.studentId + '</td><td>' + student.name + '</td><td style="display:none;">' + student.id + '</td></tr>');
+                    });
+                },
+                error: function () {
+                    console.log('An error occurred when loading students list.');
+                    var table = $('#studentsTable tbody');
+                    table.empty();
+                    table.append('<tr><td>OCORREU UM ERRO AO CARREGAR LISTA DE ESTUDANTES</td></tr>');
+                }
+            });
+    
+
+            // This function filters the students table.
+            $("#searchInputStudents").on("keyup", function () {
+                // Get user inputed value:
+                var value = $(this).val().toLowerCase();
+
+                // Filter table rows to match inputed value:
+                $("tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+            // This function sends to server the list of selected students:
+            $("#btnEfetuarCandidatura").click(function (event) {
+                event.preventDefault();
+
+                var studentsList = [];
+                $("#studentsTable input[name='checkbox']:checked").each(function () {
+                    var studentId = $(this).closest("tr").find("td:eq(3)").text();
+                    studentsList.push(studentId);
+                });
+
+                // Add this lists as invisible elements in the form:
+                var selectedStudents = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "studentsList")
+                    .appendTo("#applicationForm");
+
+                selectedStudents.val(JSON.stringify(studentsList));
+
+                $("#applicationForm").submit();
+            });
+        });
+    </script>
+}

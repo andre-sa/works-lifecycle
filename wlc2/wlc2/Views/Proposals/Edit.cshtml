@@ -1,0 +1,59 @@
+﻿@model wlc2.Models.Proposal
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Proposal</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProposalStatus" class="control-label"></label>
+                <select asp-for="ProposalStatus" class="form-control"></select>
+                <span asp-validation-for="ProposalStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CourseFK" class="control-label"></label>
+                <select asp-for="CourseFK" class="form-control" asp-items="ViewBag.CourseFK"></select>
+                <span asp-validation-for="CourseFK" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="InstitutionFK" class="control-label"></label>
+                <select asp-for="InstitutionFK" class="form-control" asp-items="ViewBag.InstitutionFK"></select>
+                <span asp-validation-for="InstitutionFK" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AcademicYearFK" class="control-label"></label>
+                <select asp-for="AcademicYearFK" class="form-control" asp-items="ViewBag.AcademicYearFK"></select>
+                <span asp-validation-for="AcademicYearFK" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

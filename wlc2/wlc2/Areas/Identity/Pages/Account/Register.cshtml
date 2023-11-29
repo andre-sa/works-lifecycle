@@ -1,0 +1,379 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Gestão Contas";
+}
+
+<div class="row">
+
+    @* Column Left *@
+    <div class="col">
+        @* Students managment *@
+        <div class="card mx-auto shadow-sm" style="width: 660px; height: 400px">
+            @* Title *@
+            <div class="card-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                </svg>
+                | ESTUDANTES
+            </div>
+            @* Content *@
+            <div class="card-body" style="overflow-y: auto;">
+                <div class="input-group mb-3 col">
+                    <span class="input-group-text shadow" id="basic-addon1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </span>
+                    <input type="text" id="searchInputStudents" class="form-control shadow" placeholder="Procurar aluno...">
+                </div>
+                @if (Model.Students != null && Model.Students.Count > 0)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th style="width: 50px">Processo</th>
+                                <th>Nome</th>
+                                <th style="width: 10px"></th>
+                                <th style="width: 10px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var student in Model.Students)
+                            {
+                                <tr>
+                                    <td class="text-end">@student.StudentId</td>
+                                    <td>@student.Name</td>
+                                    <td>
+                                        <a href="/Students/Edit/@student.Id">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/Students/Delete/@student.Id">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x" viewBox="0 0 16 16">
+                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                } else
+                {
+                    <p>Não foi encontrado nenhum estudante.</p>
+                }
+
+            </div>
+        </div>
+        @* Advisors managment *@
+        <div class="card mx-auto shadow-sm" style="width: 660px; height: 400px">
+            @* Title *@
+            <div class="card-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0Zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4Zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10Z" />
+                </svg>
+                | ORIENTADORES
+            </div>
+            @* Content *@
+            <div class="card-body" style="overflow-y: auto;">
+                <div class="input-group mb-3 col">
+                    <span class="input-group-text shadow" id="basic-addon1">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                        </svg>
+                    </span>
+                    <input type="text" id="searchInputAdvisor" class="form-control shadow" placeholder="Procurar orientador...">
+                </div>
+                @if (Model.Advisors != null && Model.Advisors.Count > 0)
+                {
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th style="width: 10px"></th>
+                                <th style="width: 10px"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var advisor in Model.Advisors)
+                            {
+                                <tr>
+                                    <td>@advisor.Name</td>
+                                    <td>
+                                        <a href="/Advisors/Edit/@advisor.Id">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                                                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+                                                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="/Advisors/Delete/@advisor.Id">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-x" viewBox="0 0 16 16">
+                                                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                                                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-.646-4.854.646.647.646-.647a.5.5 0 0 1 .708.708l-.647.646.647.646a.5.5 0 0 1-.708.708l-.646-.647-.646.647a.5.5 0 0 1-.708-.708l.647-.646-.647-.646a.5.5 0 0 1 .708-.708Z" />
+                                            </svg>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                } else
+                {
+                    <p>Não foi encontrado nenhum orientador.</p>
+                }
+            </div>
+        </div>
+    </div>
+    
+    @* Column Right *@
+    <div class="col">
+        @* Card to select the account type *@
+        <div class="card mx-auto shadow-sm" style="width: 610px; max-height: 800px;">
+            @* Title *@
+            <div class="card-header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
+                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                    <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                </svg>
+                | CRIAR NOVA CONTA
+            </div>
+            @* Content *@
+            <div class="card-body" style="overflow-y: auto;">
+                @* Tabs *@
+                <ul class="nav nav-tabs" id="tab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="student-tab" data-bs-toggle="tab" data-bs-target="#student-tab-pane" type="button" role="tab" aria-controls="student-tab-pane" aria-selected="true">Estudante</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="advisor-tab" data-bs-toggle="tab" data-bs-target="#advisor-tab-pane" type="button" role="tab" aria-controls="advisor-tab-pane" aria-selected="false">Orientador</button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="tabContent">
+                    <div class="tab-pane fade show active" id="student-tab-pane" role="tabpanel" aria-labelledby="student-tab" tabindex="0">
+                        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                            @* Personal Data *@
+                            <input type="text" id="ActiveTab1" name="ActiveTab" hidden="hidden">
+                            <h5 class="mt-3 mb-0 text-primary" style="font-size: 12px"><strong>DADOS PESSOAIS</strong></h5>
+                            <hr class="mt-0 text-primary" />
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Student.Name" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Student.Name">Nome do Aluno</label>
+                                <span asp-validation-for="Input.Student.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <select asp-for="Input.Student.Sex" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome">
+                                    <option value="0">Masculino</option>
+                                    <option value="1">Feminino</option>
+                                </select>
+                                <label asp-for="Input.Student.Sex">Sexo</label>
+                                <span asp-validation-for="Input.Student.Sex" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Student.Address" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Student.Address">Morada do Aluno</label>
+                                <span asp-validation-for="Input.Student.Address" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select asp-for="Input.Student.IdentificationTypeFK" class="form-control form-select" asp-items="@((SelectList)ViewData["IdentificationTypesFK"])"></select>
+                                <label asp-for="Input.Student.IdentificationTypeFK">Tipo de Identificação</label>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Student.IdentificationNumber" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Student.IdentificationNumber">Número de Identificação</label>
+                                <span asp-validation-for="Input.Student.IdentificationNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select asp-for="Input.Student.NationalityFK" class="form-control form-select" asp-items="@((SelectList)ViewData["NationalitiesFK"])"></select>
+                                <label asp-for="Input.Student.NationalityFK">Nacionalidade</label>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Student.ORCID" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Student.ORCID">ORCID</label>
+                                <span asp-validation-for="Input.Student.ORCID" class="text-danger"></span>
+                            </div>
+
+                            @* Student Data *@
+                            <h5 class="mt-3 mb-0 text-primary" style="font-size: 12px"><strong>DADOS DO ALUNO</strong></h5>
+                            <hr class="mt-0 text-primary" />
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Student.StudentId" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Student.StudentId">Número de Processo</label>
+                                <span asp-validation-for="Input.Student.StudentId" class="text-danger"></span>
+                            </div>
+
+                            @* Account Data *@
+                            <h5 class="mt-3 mb-0 text-primary" style="font-size: 12px"><strong>DADOS DA CONTA</strong></h5>
+                            <hr class="mt-0 text-primary" />
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Email" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Email">Email</label>
+                                <span asp-validation-for="Input.Student.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                <label asp-for="Input.Password">Palavra-Chave</label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                <label asp-for="Input.ConfirmPassword">Confirme a Palavra-Chave</label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button id="registerSubmit" type="submit" class="btn btn-md btn-success" style="width: 200px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
+                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                                        <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                                    </svg>
+                                    Efetuar Registo
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="advisor-tab-pane" role="tabpanel" aria-labelledby="advisor-tab" tabindex="0">
+                        <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+
+                            @* Personal Data *@
+                            <input type="text" id="ActiveTab2" name="ActiveTab" hidden="hidden">
+                            <h5 class="mt-3 mb-0 text-primary" style="font-size: 12px"><strong>DADOS PESSOAIS</strong></h5>
+                            <hr class="mt-0 text-primary" />
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Advisor.Name" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Advisor.Name">Nome do Orientador</label>
+                                <span asp-validation-for="Input.Advisor.Name" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select asp-for="Input.Advisor.IdentificationTypeFK" class="form-control form-select" asp-items="@((SelectList)ViewData["IdentificationTypesFK"])"></select>
+                                <label asp-for="Input.Advisor.IdentificationTypeFK">Tipo de Identificação</label>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Advisor.IdentificationNumber" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Advisor.IdentificationNumber">Número de Identificação</label>
+                                <span asp-validation-for="Input.Advisor.IdentificationNumber" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select asp-for="Input.Advisor.NationalityFK" class="form-control form-select" asp-items="@((SelectList)ViewData["NationalitiesFK"])"></select>
+                                <label asp-for="Input.Advisor.NationalityFK">Nacionalidade</label>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Advisor.ORCID" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Advisor.ORCID">ORCID</label>
+                                <span asp-validation-for="Input.Advisor.ORCID" class="text-danger"></span>
+                            </div>
+
+                            @* Advisor Data *@
+                            <h5 class="mt-3 mb-0 text-primary" style="font-size: 12px"><strong>DADOS DO ORIENTADOR</strong></h5>
+                            <hr class="mt-0 text-primary" />
+                            <div class="form-floating mt-3 mb-3">
+                                <select asp-for="Input.Advisor.PhD" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome">
+                                    <option value="false">Não</option>
+                                    <option value="true">Sim</option>
+                                </select>
+                                <label asp-for="Input.Advisor.PhD">Tem doutoramento?</label>
+                                <span asp-validation-for="Input.Advisor.PhD" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <select asp-for="Input.Advisor.External" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome">
+                                    <option value="false">Não</option>
+                                    <option value="true">Sim</option>
+                                </select>
+                                <label asp-for="Input.Advisor.External">É externo?</label>
+                                <span asp-validation-for="Input.Advisor.External" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mt-3 mb-3">
+                                <select asp-for="Input.Advisor.Specialist" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome">
+                                    <option value="false">Não</option>
+                                    <option value="true">Sim</option>
+                                </select>
+                                <label asp-for="Input.Advisor.Specialist">É especialista?</label>
+                                <span asp-validation-for="Input.Advisor.Specialist" class="text-danger"></span>
+                            </div>
+
+                            @* Account Data *@
+                            <h5 class="mt-3 mb-0 text-primary" style="font-size: 12px"><strong>DADOS DA CONTA</strong></h5>
+                            <hr class="mt-0 text-primary" />
+                            <div class="form-floating mt-3 mb-3">
+                                <input asp-for="Input.Email" class="form-control shadow-sm rounded-2" style="font-size: 15px" autocomplete="username" aria-required="true" placeholder="nome" />
+                                <label asp-for="Input.Email">Email</label>
+                                <span asp-validation-for="Input.Student.Email" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                <label asp-for="Input.Password">Palavra-Chave</label>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" />
+                                <label asp-for="Input.ConfirmPassword">Confirme a Palavra-Chave</label>
+                                <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <button id="registerSubmit" type="submit" class="btn btn-md btn-success" style="width: 200px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person-add" viewBox="0 0 16 16">
+                                        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+                                        <path d="M8.256 14a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                                    </svg>
+                                    Efetuar Registo
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+<script>
+    
+    // This stores the account type you want to create.
+    document.getElementById('student-tab').addEventListener('click', function() {
+        var activeTabId = document.querySelector('.nav-link.active').id;
+        document.getElementById('ActiveTab1').value = activeTabId;
+    });
+    document.getElementById('advisor-tab').addEventListener('click', function () {
+        var activeTabId = document.querySelector('.nav-link.active').id;
+        document.getElementById('ActiveTab2').value = activeTabId;
+    });
+
+    // This function makes search field (input) work.
+    $(document).ready(function () {
+        // Input on change:
+        $("#searchInputStudent").on("keyup", function () {
+            // Get user inputed value:
+            var value = $(this).val().toLowerCase();
+
+            // Filter table rows to match inputed value:
+            $("tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+        // Input on change:
+        $("#searchInputAdvisor").on("keyup", function () {
+            // Get user inputed value:
+            var value = $(this).val().toLowerCase();
+
+            // Filter table rows to match inputed value:
+            $("tbody tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+    });
+
+</script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

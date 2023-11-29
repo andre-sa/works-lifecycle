@@ -1,0 +1,27 @@
+﻿@model wlc2.Models.AcademicYear
+
+@{
+    ViewData["Title"] = "Detalhes Ano Académico";
+}
+
+<div>
+    <h4 style="color: green">Detalhes Ano Académico</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Current)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Current)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Voltar</a>
+</div>

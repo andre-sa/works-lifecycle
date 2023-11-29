@@ -1,0 +1,92 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - wlc2</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/wlc2.styles.css" asp-append-version="true" />
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body style="background-color: #f0f0f0">
+    @if (User.Identity.IsAuthenticated)
+    {
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-light bg-white fixed-top shadow-sm">
+                <div class="container">
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                        <img src="~/images/logo_ipt.png" width="30" height="30" class="d-inline-block align-text-top" alt="">
+                        <strong>W</strong>orks <strong>L</strong>ife<strong>C</strong>ycle
+                        
+                    </a>
+                    <span class="badge bg-secondary">Versão 0.2.20231122</span>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>                            
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1" style="font-weight: bold;">
+                            @* <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            </li> *@
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Sobre a App</a>
+                            </li>
+                            @if (User.IsInRole("Admin")) {
+                                <li>
+                                    <div class="dropdown show">
+                                        <a class="nav-link text-dark dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            Gerir App
+                                        </a>
+
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <h6 class="dropdown-header">Dados da Aplicação</h6>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="AcademicYears" asp-action="Index">Anos Académicos</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Areas" asp-action="Index">Áreas</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="RepositoryCollections" asp-action="Index">Coleções/Repositórios</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Courses" asp-action="Index">Cursos</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Institutions" asp-action="Index">Instituições</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Licenses" asp-action="Index">Licenças</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Languages" asp-action="Index">Línguas/Idiomas</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="Nationalities" asp-action="Index">Nacionalidades</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="ResearchProjects" asp-action="Index">Projetos de Investigação</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="AccessTypes" asp-action="Index">Tipos de Acesso</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="IdentificationTypes" asp-action="Index">Tipos de Identificação</a>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="" asp-controller="OrganicUnits" asp-action="Index">Unidades Orgânicas</a>
+                                            <h6 class="dropdown-header">Gestão de Contas</h6>
+                                            <a class="dropdown-item nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">Contas</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            } 
+                        </ul>
+                        <partial name="_LoginPartial" />
+                    </div>
+                </div>
+            </nav>
+            <br />
+        </header>
+    }
+
+    <div class="container">
+        <main role="main" class="mt-5 pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

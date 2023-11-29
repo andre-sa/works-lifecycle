@@ -1,0 +1,79 @@
+﻿@model wlc2.Models.Project
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>Project</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AbstractPT" class="control-label"></label>
+                <input asp-for="AbstractPT" class="form-control" />
+                <span asp-validation-for="AbstractPT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AbstractEN" class="control-label"></label>
+                <input asp-for="AbstractEN" class="form-control" />
+                <span asp-validation-for="AbstractEN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KeywordsPT" class="control-label"></label>
+                <input asp-for="KeywordsPT" class="form-control" />
+                <span asp-validation-for="KeywordsPT" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KeywordsEN" class="control-label"></label>
+                <input asp-for="KeywordsEN" class="form-control" />
+                <span asp-validation-for="KeywordsEN" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ProjectStatus" class="control-label"></label>
+                <select asp-for="ProjectStatus" class="form-control"></select>
+                <span asp-validation-for="ProjectStatus" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grade" class="control-label"></label>
+                <input asp-for="Grade" class="form-control" />
+                <span asp-validation-for="Grade" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AcademicYearFK" class="control-label"></label>
+                <select asp-for="AcademicYearFK" class ="form-control" asp-items="ViewBag.AcademicYearFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="LanguageFK" class="control-label"></label>
+                <select asp-for="LanguageFK" class ="form-control" asp-items="ViewBag.LanguageFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="AccessTypeFK" class="control-label"></label>
+                <select asp-for="AccessTypeFK" class ="form-control" asp-items="ViewBag.AccessTypeFK"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="LicenseFK" class="control-label"></label>
+                <select asp-for="LicenseFK" class ="form-control" asp-items="ViewBag.LicenseFK"></select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

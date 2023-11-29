@@ -1,0 +1,29 @@
+﻿@model wlc2.Models.Proposal
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div class="card mx-auto shadow-sm" style="width: 660px;">
+    @* Title *@
+    <div class="card-header">
+        Detalhes da Proposta "<strong>@Model.Title</strong>"
+    </div>
+
+    @* Content *@
+    <div class="card-body" style="overflow-y: auto;">
+        <p>Ano letivo: <strong>@Html.DisplayFor(model => model.AcademicYear.Name)</strong></p>
+        
+        <p>Estado: <strong>@Model.ProposalStatusDisplay</strong></p>
+        
+        <hr />
+        <p>Instituição: <strong>@Html.DisplayFor(model => model.Institution.Name)</strong></p>
+        <p>Orientador(s)</p>
+        @foreach (var advisor in Model.Advisors)
+        {
+            <p><strong>@advisor.Name</strong> <i>(@advisor.Email)</i></p>
+        }
+        <hr />
+        @Html.Raw(Model.Description)
+    </div>
+</div>

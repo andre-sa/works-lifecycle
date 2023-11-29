@@ -1,0 +1,33 @@
+﻿@model wlc2.Models.RepositoryCollection
+
+@{
+    ViewData["Title"] = "Eliminar Coleção";
+}
+
+<h1 style="color: green">Eliminar Coleção</h1>
+
+<h3>Tem a certeza que deseja eliminar esta coleção?</h3>
+<div>
+    <h4>RepositoryCollection</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.OrganicUnit)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.OrganicUnit.Id)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Eliminar Coleção" class="btn btn-danger" /> |
+        <a asp-action="Index">Voltar</a>
+    </form>
+</div>

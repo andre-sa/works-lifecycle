@@ -1,0 +1,157 @@
+﻿@model ApplicationViewModel
+
+@{
+    ViewData["Title"] = "Candidatura";
+}
+
+<h1>Detalhes da Candidatura</h1>
+<hr />
+
+<div class="card mx-auto shadow-sm" style="width: 660px;">
+    @* Title *@
+    <div class="card-header">
+        INFORMAÇÃO
+    </div>
+    @* Content *@
+    <div class="card-body" style="overflow-y: auto;">
+        
+        @* Show course *@
+        <p>Curso: @Model.Application.Course.Name</p>
+
+        @* Show academic year *@
+        <p>Ano letivo: @Model.Application.AcademicYear.Name</p>
+
+        @* Show application status *@
+        <p>Estado: @Model.Application.ApplicationStatusDisplay</p>
+
+        @* Show submission date *@
+        <p>Data de submissão: @Model.Application.SubmittedDate</p>
+
+    </div>
+</div>
+
+@* Students *@
+<div class="card mx-auto shadow-sm" style="width: 660px; height: 400px">
+    @* Title *@
+    <div class="card-header">
+        ALUNOS
+    </div>
+    @* Content *@
+    <div class="card-body" style="overflow-y: auto;">
+        <table class="table table-hover" id="studentTable">
+            <thead>
+                <tr>
+                    <th>Número</th>
+                    <th>Nome</th>
+                    <th>Email</th>
+                    <th>Média</th>
+                    <th>ECTS</th>
+                    <th>Estado</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var student in Model.Application.Students)
+                {
+                    <tr>
+                        <td style="text-align:left; vertical-align:middle">@student.StudentId</td>
+                        <td style="text-align:left; vertical-align:middle">@student.Name</td>
+                        <td style="text-align:left; vertical-align:middle">@student.Email</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@* Projects *@
+<div class="card mx-auto shadow-sm" style="width: 660px; height: 400px">
+    @* Title *@
+    <div class="card-header">
+        PROPOSTAS POR ORDEM DE PREFERÊNCIA
+    </div>
+    @* Content *@
+    <div class="card-body" style="overflow-y: auto;">
+        <table class="table table-hover" id="proposalTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Ordem</th>
+                    <th>Título</th>
+                    <th>Orientadores</th>
+                    <th>Atribuir</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var proposal in Model.Application.ApplicationProposals)
+                {
+                    <tr>
+                        <td style="text-align:left; vertical-align:middle">@proposal.ProposalFK</td>
+                        <td style="text-align:left; vertical-align:middle">@proposal.Order</td>
+                        <td style="text-align:left; vertical-align:middle">@proposal.Proposal.Title</td>
+                        <td></td>
+                        <td>
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@if (User.IsInRole("Advisor"))
+{
+    <div class="mx-auto" style="width: 660px;">
+        @* Button to aprove the application *@
+        <div class="d-flex justify-content-end">
+            <a class="btn btn-danger" href="#" id="">Rejeitar candidatura</a>
+            <a class="btn btn-success" href="#" id="aprovarButton">Aprovar candidatura</a>
+        </div>
+    </div>
+    
+}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#aprovarButton").click(function (e) {
+            e.preventDefault();
+
+            // Coleta os dados da tabela de alunos
+            var studentsData = [];
+            $("#studentTable tbody tr").each(function () {
+                var studentId = $(this).find("td:eq(0)").text();
+                var name = $(this).find("td:eq(1)").text();
+                var email = $(this).find("td:eq(2)").text();
+                studentsData.push({ StudentId: studentId, Name: name, Email: email });
+            });
+
+            // Coleta os dados da tabela de propostas
+            var proposalsData = [];
+            $("#proposalTable tbody tr").each(function () {
+                var id = $(this).find("td:eq(0)").text();
+                var order = $(this).find("td:eq(1)").text();
+                var title = $(this).find("td:eq(2)").text();
+                proposalsData.push({ Id: id,Order: order, Title: title });
+            });
+
+            // Envia os dados para o controlador via AJAX
+            $.ajax({
+                type: "POST",
+                url: "/Applications/ApproveApplication",
+                data: {
+                    students: JSON.stringify(studentsData),
+                    proposals: JSON.stringify(proposalsData)
+                },
+                success: function (response) {
+                    // Lidar com a resposta do servidor, se necessário
+                }
+            });
+        });
+    });
+</script>
+

@@ -1,0 +1,95 @@
+﻿@model IEnumerable<wlc2.Models.Project>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AbstractPT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AbstractEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeywordsPT)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KeywordsEN)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProjectStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AcademicYear)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Language)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AccessType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.License)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AbstractPT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AbstractEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeywordsPT)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KeywordsEN)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProjectStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AcademicYear.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Language.Alpha2Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AccessType.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.License.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

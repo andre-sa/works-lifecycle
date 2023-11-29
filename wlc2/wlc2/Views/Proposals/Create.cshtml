@@ -1,0 +1,268 @@
+﻿@model wlc2.Models.Proposal
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<script src="~/lib/tinymce/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '#tinymce'
+    });
+</script>
+
+<div class="row" style="height: 50px">
+    <h5 class="text-dark"><strong>CRIAR UMA NOVA PROPOSTA</strong></h5>
+</div>
+
+<form asp-action="Create" id="proposalForm">
+    
+    @* Project data *@
+    <div class="row">
+        <div class="col">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label class="control-label">Título do projeto:</label>
+                <input asp-for="Title" class="form-control shadow" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="control-label">Instituição a que pertence o projeto:</label>
+                <select asp-for="InstitutionFK" class="form-control shadow" asp-items="ViewBag.InstitutionFK">
+                    <option value="0">----- Por favor, escolha uma intituição -----</option>
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="control-label">Curso a que pertence o projeto:</label>
+                <select id="courseId" asp-for="CourseFK" class="form-control shadow" >
+                    <option value="0" data-degree="0">----- Por favor, escolha um curso que esteja associado a sí -----</option>
+                    @foreach (var courseItem in ViewBag.CourseFK)
+                    {
+                        var courseId = courseItem.Value.ToString();
+                        var courseText = courseItem.Text.ToString();
+                        var degree = (Degree)ViewBag.CourseDegrees[int.Parse(courseId)];
+                        var prefix = "";
+
+                        switch (degree)
+                        {
+                            case Degree.bachelor:
+                                prefix = "Licenciatura em";
+                                break;
+                            case Degree.master:
+                                prefix = "Mestrado em";
+                                break;
+                            case Degree.doctorate:
+                                prefix = "Doutoramento em";
+                                break;
+                            default:
+                                break;
+                        }
+
+                        <option value="@courseId" data-degree="@degree">@prefix @courseText</option>
+                    }
+                </select>
+            </div>
+            <br />
+            <div class="form-group">
+                <label class="control-label">Ano letivo:</label>
+                <select asp-for="AcademicYearFK" class="form-control shadow" asp-items="ViewBag.AcademicYearFK">
+                    <option value="0">----- Por favor, escolha um ano letivo -----</option>
+                </select>
+            </div>
+
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="form-group">
+            <label class="control-label">Descrição do projeto:</label>
+            <textarea id="tinymce" asp-for="Description" class="form-control shadow">Descreve aqui o seu projeto!</textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+    </div>
+    <br />
+    <br />
+    <hr />
+    <h5><i>Se pretender associar estudantes e orientadores, preencha o resto do formulário em baixo.</i></h5>
+    <br />
+    <div class="row">
+        @* Students *@
+        <div class="col-5 shadow bg-light mx-auto rounded-3" style="max-height: 400px; margin-left: auto; margin-right: auto; overflow-y: auto;">
+            <br />
+            <div class="input-group mb-3">
+                <span class="input-group-text shadow" id="basic-addon1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </span>
+                <input type="text" id="searchInputStudents" class="form-control shadow" placeholder="Procurar estudante...">
+            </div>
+            <table class="table" id="studentsTable">
+                <thead>
+                    <tr>
+                        <th>Associar</th>
+                        <th>Processo</th>
+                        <th>Nome do Aluno</th>
+                        <th style="display:none;">Id do Aluno</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-1"></div>
+        @* Advisors *@
+        <div class="col-6 shadow bg-light mx-auto rounded-3" style="max-height: 400px; margin-left: auto; margin-right: auto; overflow-y: auto;">
+            <br />
+            <div class="input-group mb-3">
+                <span class="input-group-text shadow" id="basic-addon2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </span>
+                <input type="text" id="searchInputAdvisors" class="form-control shadow" placeholder="Procurar orientador...">
+            </div>
+            <table class="table" id="advisorsTable">
+                <thead>
+                    <tr>
+                        <th>Associar</th>
+                        <th>Orientador</th>
+                        <th>Email</th>
+                        <th>Externo?</th>
+                        <th style="display:none;">Id do Orientador</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <div class="row">
+        <div class="form-group d-flex justify-content-end">
+            <input type="submit" id="btnAdd" value="Adicionar Proposta" class="btn btn-primary shadow" />
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">  
+        $(document).ready(function() {
+
+            // This function gets a list of students associated to the current selected course.
+            $('#courseId').change(function() {
+                // Get the selected value of course element:
+                var courseId = $(this).val();
+                // The Id cannot be 0 (if not continue):
+                if(courseId != 0) {
+                    // Creates an object with data to send to the server:
+                    var data = {
+                        courseId: courseId
+                    };
+                    $.ajax({
+                        url: '/Proposals/GetStudentsList',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: data,
+                        success: function(students) {
+                            var table = $('#studentsTable tbody');
+                            table.empty();
+
+                            students.forEach(function(student) {
+                                table.append('<tr><td><input type="checkbox" id="checkbox" name="checkbox">' + '</td><td>' + student.studentId + '</td><td>' + student.name + '</td><td style="display:none;">' + student.id + '</td></tr>');
+                            });
+                        },
+                        error: function() {
+                            console.log('An error occurred when loading students list.');
+                            var table = $('#studentsTable tbody');
+                            table.empty();
+                            table.append('<tr><td>OCORREU UM ERRO AO CARREGAR LISTA DE ESTUDANTES</td></tr>');
+                        }
+                    });
+                    $.ajax({
+                        url: '/Proposals/GetAdvisorsList',
+                        type: 'GET',
+                        dataType: 'json',
+                        data: data,
+                        success: function (advisors) {
+                            var table = $('#advisorsTable tbody');
+                            table.empty();
+
+                            advisors.forEach(function (advisor) {
+                                table.append('<tr><td><input type="checkbox" id="checkbox" name="checkbox">' + '</td><td>' + advisor.name + '</td><td>' + advisor.email + '</td><td>' + (advisor.external ? 'Sim' : 'Não') + '</td><td style="display:none;">' + advisor.id + '</td></tr>');
+                            });
+                        },
+                        error: function () {
+                            console.log('An error occurred when loading advisors list.');
+                            var table = $('#advisorsTable tbody');
+                            table.empty();
+                            table.append('<tr><td>OCORREU UM ERRO AO CARREGAR LISTA DE ORIENTADORES</td></tr>');
+                        }
+                    });
+                } else {
+                    var table = $('#advisorsTable tbody');
+                    table.empty();
+                }
+            });
+
+            // This function filters the students table.
+            $("#searchInputStudents").on("keyup", function () {
+                // Get user inputed value:
+                var value = $(this).val().toLowerCase();
+
+                // Filter table rows to match inputed value:
+                $("tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+            // This function filters the advisors table.
+            $("#searchInputAdvisors").on("keyup", function () {
+                // Get user inputed value:
+                var value = $(this).val().toLowerCase();
+
+                // Filter table rows to match inputed value:
+                $("tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+
+            // This function sends to server the list of selected students and advisors:
+            $("#btnAdd").click(function(event) {
+                event.preventDefault();
+
+                var studentsList = [];
+                $("#studentsTable input[name='checkbox']:checked").each(function() {
+                    var studentId = $(this).closest("tr").find("td:eq(3)").text();
+                    studentsList.push(studentId);
+                });
+
+                var advisorsList = [];
+                $("#advisorsTable input[name='checkbox']:checked").each(function () {
+                    var advisorId = $(this).closest("tr").find("td:eq(4)").text();
+                    advisorsList.push(advisorId);
+                });
+
+                // Add this lists as invisible elements in the form:
+                var selectedStudents = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "studentsList")
+                    .appendTo("#proposalForm");
+                var selectedAdvisors = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "advisorsList")
+                    .appendTo("#proposalForm");
+
+                selectedStudents.val(JSON.stringify(studentsList));
+                selectedAdvisors.val(JSON.stringify(advisorsList));
+
+                $("#proposalForm").submit();
+            });
+        });
+    </script>
+}

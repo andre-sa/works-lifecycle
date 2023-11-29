@@ -1,0 +1,72 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Entre com sua conta";
+}
+
+@* LogIn form. *@
+<div class="card mx-auto shadow-sm" style="width: 500px">
+    @* Title *@
+    <div class="card-header text-center">
+        <strong>W</strong>ORKS <strong>L</strong>IFE<strong>C</strong>YCLE <strong>v0.2</strong>
+        <br />
+        <i>Submissão de trabalhos de mestrado do IPT.</i>
+    </div>
+
+    @* Content *@
+    <div class="card-body">
+
+        <div class="text-center">
+            @* IPT logo *@
+            <img src="~/images/logo_ipt_horizontal.png" height="100" width="350" class="" alt="">
+        </div>
+
+
+        @* Form to send to server *@
+        <form id="account" method="post">
+            
+            @* Input for email *@
+            <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="name@example.com" />
+                <label asp-for="Input.Email" class="form-label">Email de Utilizador</label>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+
+            @* Input for password *@
+            <div class="form-floating mb-3">
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" placeholder="password" />
+                <label asp-for="Input.Password" class="form-label">Palavra-Chave</label>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+
+            @* Input for remember me *@
+            <div class="checkbox mb-3">
+                <label asp-for="Input.RememberMe" class="form-label">
+                    <input class="form-check-input" asp-for="Input.RememberMe" />
+                    Lembrar conta?
+                </label>
+            </div>
+
+            @* Button for submit the login *@
+            <div>
+                <button id="login-submit" type="submit" class="w-100 btn btn-lg btn-primary">Entrar</button>
+            </div>
+
+            @* Link if user forgot the password *@
+            <div>
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">Esqueci-me da palavra-chave.</a>
+                </p>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

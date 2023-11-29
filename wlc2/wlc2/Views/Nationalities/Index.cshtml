@@ -1,0 +1,70 @@
+﻿@model IEnumerable<wlc2.Models.Nationality>
+
+@{
+    ViewData["Title"] = "Nacionalidades";
+}
+
+<h1 style="color: green">Nacionalidades</h1>
+
+<div class="row">
+    <p class="col">
+        <a class="btn btn-primary shadow" asp-action="Create">Adicionar Nova Nacionalidade</a>
+    </p>
+    <div class="input-group mb-3 col">
+        <span class="input-group-text shadow" id="basic-addon1">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+        </span>
+        <input type="text" id="searchInput" class="form-control shadow" placeholder="Procurar...">
+    </div>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Alpha2Code)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alpha2Code)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Editar</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Detalhes</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Eliminar</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        // This function makes search field (input) work.        
+        $(document).ready(function () {
+            // Input on change:
+            $("#searchInput").on("keyup", function () {
+                // Get user inputed value:
+                var value = $(this).val().toLowerCase();
+
+                // Filter table rows to match inputed value:
+                $("tbody tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+}

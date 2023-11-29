@@ -1,0 +1,169 @@
+﻿@model ProjectViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="container shadow-lg mt-3 pb-3 bg-white rounded-3 border border-dark">
+    <form asp-action="Edit" enctype="multipart/form-data">
+        @* Project Title *@
+        <div class="row">
+            <h4 class="pb-1 pt-3"><strong>Works LifeCycle v0.3</strong></h4>
+            <input type="hidden" value="@Model.Project.Id" />
+        </div>
+
+        @* Project Data *@
+        <div class="card mx-auto shadow-sm col-lg-12 col-md-10 col-sm-10 border border-primary">
+            @* Card Title *@
+            <div class="card-header text-center text-primary">
+                <strong>DADOS DO PROJETO</strong>
+            </div>
+
+            @* Card Content *@
+            <div class="card-body">
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Título do Projeto:</strong></div>
+                    <div class="col-lg-4 align-content-start"><strong>@Model.Project.Title (<i>@Model.Project.ProjectStatus</i>)</strong></div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Ano Letivo:</strong></div>
+                    <div class="col-lg-4 align-content-start"><strong>@Model.Project.AcademicYear.Name</strong></div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <hr />
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-6 align-content-end">
+                        <strong class="text-primary">ALUNO(S)</strong>
+                        @foreach (var student in Model.Project.Students)
+                        {
+                            <p><strong>@student.Name</strong> (@student.Email)</p>
+                        }
+                    </div>
+                    <div class="col-lg-6 align-content-end">
+                        <strong class="text-primary">ORIENTADOR(ES)</strong>
+                        @foreach (var advisor in Model.Project.Advisors)
+                        {
+                            <p><strong>@advisor.Name</strong> (@advisor.Email)</p>
+                        }
+                    </div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <hr />
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Língua/Idioma:</strong></div>
+                    <div class="col-lg-4 align-content-start">
+                        <div class="form-group">
+                            <select asp-for="@Model.Project.LanguageFK" name="language" class="form-control">
+                                @* @if (Model.Project.Language.Id != 0 )
+                                {
+                                    <option value="@Model.Project.Language.Id">@Model.Project.Language.Name (definido)</option>
+                                } else
+                                {
+                                    <option value="0">----- Ainda não definiu a língua do projeto -----</option>
+                                } *@
+                                @foreach (var language in Model.Languages)
+                                {
+                                    <option value="@language.Id">@language.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Licença:</strong></div>
+                    <div class="col-lg-4 align-content-start">
+                        <div class="form-group">
+                            <select asp-for="@Model.Project.LicenseFK" name="license" class="form-control">
+                                @* @if (Model.Project.License.Id != 0)
+                                {
+                                    <option value="@Model.Project.License.Id">@Model.Project.License.Name (definido)</option>
+                                } else
+                                {
+                                    <option value="0">----- Ainda não definiu uma licença -----</option>
+                                } *@
+                                @foreach (var license in Model.Licenses)
+                                {
+                                    <option value="@license.Id">@license.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Tipo de acesso:</strong></div>
+                    <div class="col-lg-4 align-content-start">
+                        <div class="form-group">
+                            <select asp-for="@Model.Project.AccessTypeFK" name="accessType" class="form-control">
+                                @* @if (Model.Project.AccessType.Id != 0)
+                                {
+                                    <option value="@Model.Project.AccessType.Id">@Model.Project.AccessType.Name (definido)</option>
+                                } else
+                                {
+                                    <option value="0">----- Ainda não definiu um tipo de acesso -----</option>
+                                } *@
+                                @foreach (var accessType in Model.AccessTypes)
+                                {
+                                    <option value="@accessType.Id">@accessType.Name</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Palavras-Chave (português):</strong></div>
+                    <div class="col-lg-4 align-content-start">
+                        <input name="keywordsPT" asp-for="@Model.Project.KeywordsPT" placeholder="benfica, sporting, porto" class="form-control" />
+                    </div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Palavras-Chave (inglês):</strong></div>
+                    <div class="col-lg-4 align-content-start">
+                        <input name="keywordsEN" asp-for="@Model.Project.KeywordsEN" class="form-control" />
+                    </div>
+                </div>
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Resumo (português):</strong></div>
+                    <div class="col-lg-4 align-content-start">
+                        <textarea name="abstractPT" asp-for="@Model.Project.AbstractPT" class="form-control"></textarea>
+                    </div>
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">Resumo (inglês):</strong></div>
+                    <div class="col-lg-4 align-content-start">
+                        <textarea name="abstractEN" asp-for="@Model.Project.AbstractEN" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        @* Project File Submission *@
+        <div class="card mx-auto shadow-sm col-lg-12 col-md-10 col-sm-10 border border-primary">
+            @* Card Title *@
+            <div class="card-header text-center text-primary">
+                <strong>SUBMISSÃO DO RELATÓRIO</strong>
+            </div>
+
+            @* Card Content *@
+            <div class="card-body">
+                <div class="row ps-5 pe-5 pt-2">
+                    <div class="col-lg-2 align-content-end"><strong class="text-primary">RELATÓRIO</strong></div>       
+                    <div class="col-lg-4 align-content-start">
+                        <input name="projectReport" asp-for="@Model.Project.ProjectReport" class="form-control" type="file" accept=".pdf" />
+                    </div>
+                    <div class="col-lg-4 align-content-start">
+                        <a href="/Reports/@Model.Project.ProjectReport" target="_blank">@Model.Project.ProjectReport</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <div class="">
+            <button type="button" class="btn btn-outline-primary border border-primary" onclick="window.location.href='/Home/Index'">Voltar</button>
+            <button type="submit" class="btn btn-primary border border-primary">Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
